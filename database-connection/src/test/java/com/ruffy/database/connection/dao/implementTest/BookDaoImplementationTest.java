@@ -5,6 +5,7 @@ import com.ruffy.database.connection.dao.implement.BookDaoImplementation;
 import com.ruffy.database.connection.domain.Book;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -37,6 +38,16 @@ public class BookDaoImplementationTest {
                 eq("123-123"),
                 eq("The Rich also cry"),
                 eq(1L)
+        );
+    }
+
+    @Test
+    public void testThatGetOneBookByIsbnGeneratesTheCorrectSql(){
+        underTest.getOneBookByIsbn("123-123");
+        verify(jdbcTemplate).query(
+                eq("SELECT isbn title authorId FROM books WHERE isbn=? LIMIT=1"),
+                ArgumentMatchers.<BookDaoImplementation.BookRowMapper>any(),
+                eq("123-123")
         );
     }
 }
