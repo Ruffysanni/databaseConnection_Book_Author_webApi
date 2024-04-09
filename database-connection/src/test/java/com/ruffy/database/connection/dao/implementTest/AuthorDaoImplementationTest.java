@@ -1,7 +1,7 @@
 package com.ruffy.database.connection.dao.implementTest;
 
 
-import com.ruffy.database.connection.dao.AuthorDao;
+import com.ruffy.database.connection.TestDataUtility;
 import com.ruffy.database.connection.dao.implement.AuthorDaoImplementation;
 import com.ruffy.database.connection.domain.Author;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -26,11 +25,7 @@ public class AuthorDaoImplementationTest {
 
     @Test
     public void testThatCreatedAuthorGeneratesCorrectSql(){
-        Author author = Author.builder()
-                .id(1L)
-                .name("Marylyn Moses")
-                .age(23)
-                .build();
+        Author author = TestDataUtility.createTestAuthor();
 
         underTest.create(author);
         verify(jdbcTemplate).update(
